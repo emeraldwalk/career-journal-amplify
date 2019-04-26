@@ -10,5 +10,17 @@
             "StackName": "career-journal-20190426194328",
             "StackId": "arn:aws:cloudformation:us-east-1:157315783832:stack/career-journal-20190426194328/1843d490-687d-11e9-ad0e-12f2c8f206e2"
         }
+    },
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "career-journal-20190426195407-authRole",
+            "UnauthRoleArn": "arn:aws:iam::157315783832:role/career-journal-20190426195407-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::157315783832:role/career-journal-20190426195407-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "career-journal-20190426195407-deployment",
+            "UnauthRoleName": "career-journal-20190426195407-unauthRole",
+            "StackName": "career-journal-20190426195407",
+            "StackId": "arn:aws:cloudformation:us-east-1:157315783832:stack/career-journal-20190426195407/94dfbe50-687e-11e9-99dd-0aa7a65c926c"
+        }
     }
 }

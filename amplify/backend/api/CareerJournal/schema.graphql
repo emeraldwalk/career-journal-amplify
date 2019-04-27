@@ -4,7 +4,7 @@ type Entry @model @auth(rules: [{allow: owner}]) {
 	createdAt: AWSDateTime
 	date: AWSDate!
 	id: ID!
-	owner: String!
+	owner: String
 	tags: [String!]!
 	title: String!
 	updatedAt: AWSDateTime
@@ -13,7 +13,7 @@ type Entry @model @auth(rules: [{allow: owner}]) {
 type Tag @model @auth(rules: [{allow: owner}]) {
 	icon: String
 	id: ID!
-	owner: String!
+	owner: String
 	parentId: ID!
 	value: String!
 }

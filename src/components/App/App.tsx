@@ -4,7 +4,7 @@ export interface AppProps {
 };
 
 const App: React.SFC<AppProps> = ({}) => (
-  <div>
+  <div className="c_app">
     App
   </div>
 );

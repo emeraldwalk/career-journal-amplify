@@ -21,6 +21,11 @@
             "UnauthRoleName": "career-journal-20190426195407-unauthRole",
             "StackName": "career-journal-20190426195407",
             "StackId": "arn:aws:cloudformation:us-east-1:157315783832:stack/career-journal-20190426195407/94dfbe50-687e-11e9-99dd-0aa7a65c926c"
+        },
+        "categories": {
+            "auth": {
+                "cognitob931ea5a": {}
+            }
         }
     }
 }

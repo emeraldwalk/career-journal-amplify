@@ -1,9 +1,3 @@
-/**
- * Found some type info here:
- * https://github.com/aws-amplify/amplify-js/issues/2160
- * https://github.com/aws-amplify/amplify-js/issues/1911#issuecomment-437337399
- */
-
 declare module 'aws-amplify-react' {
   import React from 'react';
 
@@ -34,6 +28,10 @@ declare module 'aws-amplify-react' {
     signUpConfig: SignUpConfig
   }
 
+  /**
+   * Docs for configuration here:
+   * https://aws-amplify.github.io/docs/js/react#signup-configuration
+   */
   function withAuthenticator(
     component: React.ComponentType,
     showLogout: boolean

@@ -8,6 +8,7 @@ export const createEntry = `mutation CreateEntry($input: CreateEntryInput!) {
     createdAt
     date
     id
+    owner
     tags
     title
     updatedAt
@@ -21,6 +22,7 @@ export const updateEntry = `mutation UpdateEntry($input: UpdateEntryInput!) {
     createdAt
     date
     id
+    owner
     tags
     title
     updatedAt
@@ -34,6 +36,7 @@ export const deleteEntry = `mutation DeleteEntry($input: DeleteEntryInput!) {
     createdAt
     date
     id
+    owner
     tags
     title
     updatedAt
@@ -44,6 +47,7 @@ export const createTag = `mutation CreateTag($input: CreateTagInput!) {
   createTag(input: $input) {
     icon
     id
+    owner
     parentId
     value
   }
@@ -53,6 +57,7 @@ export const updateTag = `mutation UpdateTag($input: UpdateTagInput!) {
   updateTag(input: $input) {
     icon
     id
+    owner
     parentId
     value
   }
@@ -62,6 +67,7 @@ export const deleteTag = `mutation DeleteTag($input: DeleteTagInput!) {
   deleteTag(input: $input) {
     icon
     id
+    owner
     parentId
     value
   }

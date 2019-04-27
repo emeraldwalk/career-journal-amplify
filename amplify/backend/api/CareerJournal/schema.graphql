@@ -1,34 +1,19 @@
-# type Blog @model {
-#   id: ID!
-#   name: String!
-#   posts: [Post] @connection(name: "BlogPosts")
-# }
-# type Post @model {
-#   id: ID!
-#   title: String!
-#   blog: Blog @connection(name: "BlogPosts")
-#   comments: [Comment] @connection(name: "PostComments")
-# }
-# type Comment @model {
-#   id: ID!
-#   content: String
-#   post: Post @connection(name: "PostComments")
-# }
-
-type Entry @model {
+type Entry @model @auth(rules: [{allow: owner}]) {
 	categoryTags: AWSJSON!
 	content: AWSJSON!
 	createdAt: AWSDateTime
 	date: AWSDate!
 	id: ID!
+	owner: String!
 	tags: [String!]!
 	title: String!
 	updatedAt: AWSDateTime
 }
 
-type Tag @model {
+type Tag @model @auth(rules: [{allow: owner}]) {
 	icon: String
 	id: ID!
+	owner: String!
 	parentId: ID!
 	value: String!
 }

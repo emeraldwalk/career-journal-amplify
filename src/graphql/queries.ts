@@ -8,6 +8,7 @@ export const getEntry = `query GetEntry($id: ID!) {
     createdAt
     date
     id
+    owner
     tags
     title
     updatedAt
@@ -26,6 +27,7 @@ export const listEntrys = `query ListEntrys(
       createdAt
       date
       id
+      owner
       tags
       title
       updatedAt
@@ -38,6 +40,7 @@ export const getTag = `query GetTag($id: ID!) {
   getTag(id: $id) {
     icon
     id
+    owner
     parentId
     value
   }
@@ -48,6 +51,7 @@ export const listTags = `query ListTags($filter: ModelTagFilterInput, $limit: In
     items {
       icon
       id
+      owner
       parentId
       value
     }

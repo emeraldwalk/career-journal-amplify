@@ -1,0 +1,34 @@
+# type Blog @model {
+#   id: ID!
+#   name: String!
+#   posts: [Post] @connection(name: "BlogPosts")
+# }
+# type Post @model {
+#   id: ID!
+#   title: String!
+#   blog: Blog @connection(name: "BlogPosts")
+#   comments: [Comment] @connection(name: "PostComments")
+# }
+# type Comment @model {
+#   id: ID!
+#   content: String
+#   post: Post @connection(name: "PostComments")
+# }
+
+type Entry @model {
+	categoryTags: AWSJSON!
+	content: AWSJSON!
+	createdAt: AWSDateTime
+	date: AWSDate!
+	id: ID!
+	tags: [String!]!
+	title: String!
+	updatedAt: AWSDateTime
+}
+
+type Tag @model {
+	icon: String
+	id: ID!
+	parentId: ID!
+	value: String!
+}

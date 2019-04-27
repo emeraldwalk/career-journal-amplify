@@ -1,0 +1,10 @@
+{
+    "AppSyncApiName": "CareerJournal",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authcognitob931ea5a",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

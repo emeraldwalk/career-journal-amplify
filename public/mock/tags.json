@@ -1,0 +1,16 @@
+{
+  "data": {
+    "listTags": {
+      "items": [
+        {
+          "icon": null,
+          "id": "d3d2feda-a668-4cab-83fd-1beab5d5755d",
+          "owner": "f6f625ef-6150-4956-ba09-64b8e0d19b38",
+          "parentId": "__ROOT__",
+          "value": "Location"
+        }
+      ],
+      "nextToken": null
+    }
+  }
+}

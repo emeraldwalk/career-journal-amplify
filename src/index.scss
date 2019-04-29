@@ -20,3 +20,9 @@ h3 { @extend %h3; };
 .c_app {
   height: 100vh;
 }
+
+.c_category-list {
+  &__header {
+    @extend %h2;
+  }
+}

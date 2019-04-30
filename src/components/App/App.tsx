@@ -4,8 +4,9 @@ import { Tag } from '../../model';
 import { createTag } from '../../graphql/mutations';
 import { listTags } from '../../graphql/queries';
 import { CreateTagMutationVariables, ListTagsQueryVariables } from '../../API';
-import { CategoryList, Nav } from '..';
-import { useRouteContext } from '../../util/route';
+import { CategoryDetail, CategoryEdit, CategoryList, Nav } from '..';
+import { useRouteContext } from '../../util/route-hooks';
+import { Route, router } from '../../util/route';
 
 async function onCreateTag() {
   const createTagVars: CreateTagMutationVariables = {
@@ -46,7 +47,7 @@ export interface AppProps {
 };
 
 const App: React.SFC<AppProps> = ({}) => {
-  const { path } = useRouteContext();
+  const { route } = useRouteContext(router);
   const [tags, setTags] = useState<Tag[]>([]);
   useEffect(() => {
     // fetch('https://www.google.com').finally(() => {
@@ -58,25 +59,44 @@ const App: React.SFC<AppProps> = ({}) => {
     );
   }, []);
 
-  function view(path: string) {
-    if(path === '/tag') {
-      return (
-        <CategoryList
-          categoryTags={
-            tags.filter(tag => tag.parentId === '__ROOT__')
-          }
-        />
-      )
-    }
+  function view(route: Route) {
+    switch(route.type) {
+      case 'categoryList':
+        return (
+          <CategoryList
+            categoryTags={
+              tags.filter(tag => tag.parentId === '__ROOT__')
+            }
+          />
+        );
 
-    return null;
+      case 'categoryDetail':
+        const detailCategoryTag = tags.find(tag => tag.id === route.id);
+
+        return detailCategoryTag && (
+          <CategoryDetail
+            categoryTag={detailCategoryTag}
+          />
+        );
+
+      case 'categoryEdit':
+        const editCategoryTag = tags.find(tag => tag.id === route.id);
+        return editCategoryTag && (
+          <CategoryEdit
+            categoryTag={editCategoryTag}
+          />
+        );
+
+      default:
+        return null;
+    }
   }
 
   return (
     <div className="c_app">
       <Nav/>
       {
-        view(path)
+        view(route)
       }
     </div>
   );

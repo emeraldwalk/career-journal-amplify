@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteContext } from '../../util/route';
+import { useRouteContext } from '../../util/route-hooks';
 
 export interface RouteLinkProps {
   children: React.ReactNode,

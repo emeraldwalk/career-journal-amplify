@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'typeface-open-sans';
 import './index.scss';
-import { RouteContextProvider } from './util/route';
+import { RouteContextProvider } from './util/route-hooks';
 import { AppConnected } from './components';
 import * as serviceWorker from './serviceWorker';
 

@@ -3,19 +3,16 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { Tag } from '../../model';
 import { createTag as createTagMutation } from '../../graphql/mutations';
 import { listTags as listTagsQuery } from '../../graphql/queries';
-import { CreateTagMutationVariables, ListTagsQueryVariables } from '../../API';
+import { CreateTagInput, CreateTagMutationVariables, ListTagsQueryVariables } from '../../API';
 import { CategoryDetail, CategoryEdit, CategoryList, Nav } from '..';
 import { useRouteContext } from '../../util/route-hooks';
 import { Route, router } from '../../util/route';
 
-async function createCategoryTag(
-  value: string
+async function createTag(
+  input: CreateTagInput
 ) {
   const createTagVars: CreateTagMutationVariables = {
-    input: {
-      parentId: '__ROOT__',
-      value
-    }
+    input
   };
 
   const result = await API.graphql(
@@ -67,7 +64,11 @@ const App: React.SFC<AppProps> = ({}) => {
             }
             onAddCategory={
               async (value) => {
-                const tag = await createCategoryTag(value);
+                const tag = await createTag({
+                  parentId: '__ROOT__',
+                  value
+                });
+
                 setTags([
                   ...tags,
                   tag
@@ -79,20 +80,40 @@ const App: React.SFC<AppProps> = ({}) => {
 
       case 'categoryDetail':
         const detailCategoryTag = tags.find(tag => tag.id === route.id);
+        if(detailCategoryTag) {
+          const detailTags = tags.filter(tag => tag.parentId === detailCategoryTag.id);
+          return (
+            <CategoryDetail
+              categoryTag={detailCategoryTag}
+              onAddTag={
+                async (value) => {
+                  const tag = await createTag({
+                    parentId: detailCategoryTag.id,
+                    value
+                  });
 
-        return detailCategoryTag && (
-          <CategoryDetail
-            categoryTag={detailCategoryTag}
-          />
-        );
+                  setTags([
+                    ...tags,
+                    tag
+                  ]);
+                }
+              }
+              tags={detailTags}
+            />
+          );
+        }
 
       case 'categoryEdit':
         const editCategoryTag = tags.find(tag => tag.id === route.id);
-        return editCategoryTag && (
-          <CategoryEdit
-            categoryTag={editCategoryTag}
-          />
-        );
+        if(editCategoryTag) {
+          const editTags = tags.filter(tag => tag.parentId === editCategoryTag.id);
+          return (
+            <CategoryEdit
+              categoryTag={editCategoryTag}
+              tags={editTags}
+            />
+          );
+        }
 
       default:
         return null;

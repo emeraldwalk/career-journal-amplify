@@ -12,6 +12,7 @@ const CategoryList: React.SFC<CategoryListProps> = ({
   onAddCategory
 }) => {
   const [newValue, setNewValue] = useState('');
+
   categoryTags = categoryTags.slice();
   categoryTags.sort((a, b) => a.value.localeCompare(b.value));
 
@@ -27,6 +28,7 @@ const CategoryList: React.SFC<CategoryListProps> = ({
         <li>
           <button
             className="action"
+            disabled={newValue.length === 0}
             onClick={() => {
               onAddCategory(newValue);
               setNewValue('');

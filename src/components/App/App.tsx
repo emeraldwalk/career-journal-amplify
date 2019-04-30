@@ -1,44 +1,46 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { Tag } from '../../model';
-import { createTag } from '../../graphql/mutations';
-import { listTags } from '../../graphql/queries';
+import { createTag as createTagMutation } from '../../graphql/mutations';
+import { listTags as listTagsQuery } from '../../graphql/queries';
 import { CreateTagMutationVariables, ListTagsQueryVariables } from '../../API';
 import { CategoryDetail, CategoryEdit, CategoryList, Nav } from '..';
 import { useRouteContext } from '../../util/route-hooks';
 import { Route, router } from '../../util/route';
 
-async function onCreateTag() {
+async function createCategoryTag(
+  value: string
+) {
   const createTagVars: CreateTagMutationVariables = {
     input: {
       parentId: '__ROOT__',
-      value: 'Location'
+      value
     }
   };
 
-  const newTag = await API.graphql(
+  const result = await API.graphql(
     graphqlOperation(
-      createTag,
+      createTagMutation,
       createTagVars
     )
-  );
+  ) as { data: { createTag: Tag } };
 
-  console.log('newTag:', newTag);
+  return result.data.createTag;
 }
 
-async function onListTags(): Promise<Tag[]> {
+async function listTags(): Promise<Tag[]> {
   const listTagVars: ListTagsQueryVariables = {
   };
 
-  // const result = await API.graphql(
-  //   graphqlOperation(
-  //     listTags,
-  //     listTagVars
-  //   )
-  // ) as { data: { listTags: { items: Tag[] } } };
+  const result = await API.graphql(
+    graphqlOperation(
+      listTagsQuery,
+      listTagVars
+    )
+  ) as { data: { listTags: { items: Tag[] } } };
 
-  const raw = await fetch('/mock/tags.json');
-  const result = await raw.json() as { data: { listTags: { items: Tag[] } } };
+  // const raw = await fetch('/mock/tags.json');
+  // const result = await raw.json() as { data: { listTags: { items: Tag[] } } };
 
   return result.data.listTags.items;
 }
@@ -50,11 +52,7 @@ const App: React.SFC<AppProps> = ({}) => {
   const { route } = useRouteContext(router);
   const [tags, setTags] = useState<Tag[]>([]);
   useEffect(() => {
-    // fetch('https://www.google.com').finally(() => {
-    //   setTags([]);
-    //   console.log('Testing');
-    // });
-    onListTags().then(
+    listTags().then(
       setTags
     );
   }, []);
@@ -66,6 +64,15 @@ const App: React.SFC<AppProps> = ({}) => {
           <CategoryList
             categoryTags={
               tags.filter(tag => tag.parentId === '__ROOT__')
+            }
+            onAddCategory={
+              async (value) => {
+                const tag = await createCategoryTag(value);
+                setTags([
+                  ...tags,
+                  tag
+                ]);
+              }
             }
           />
         );

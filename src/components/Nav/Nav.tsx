@@ -4,7 +4,7 @@ import { RouteLink } from '..';
 export interface NavProps {
 };
 
-const Nav: React.SFC<NavProps> = ({}) => (
+const Nav: React.SFC<NavProps> = () => (
   <nav className="c_nav">
     <RouteLink path="/">Entries</RouteLink>
     <RouteLink path="/tag">Tags</RouteLink>

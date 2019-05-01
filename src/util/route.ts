@@ -36,7 +36,7 @@ export function router(
   }
 
   const [, id = undefined, isEdit = undefined] = path.match(
-    /^\/tag\/([^\/]+)(\/edit)?$/
+    /^\/tag\/([^/]+)(\/edit)?$/
   ) || [];
 
   if(id) {

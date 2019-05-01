@@ -5,27 +5,62 @@ import { Tag } from '../../model';
 export interface CategoryDetailProps {
   categoryTag: Tag,
   onAddTag: (value: string) => void,
+  onEditTag: (tag: Tag) => void,
   tags: Tag[]
 };
 
 const CategoryDetail: React.SFC<CategoryDetailProps> = ({
-  categoryTag,
+  categoryTag: categoryTagRaw,
   onAddTag,
-  tags
+  onEditTag,
+  tags: tagsRaw
 }) => {
-  const [newValue, setNewValue] = useState('');
+  tagsRaw = tagsRaw.map(tag => ({
+    ...tag
+  }));
 
-  tags = tags.slice();
-  tags.sort((a, b) => a.value.localeCompare(b.value));
+  tagsRaw.sort((a, b) => a.value.localeCompare(b.value));
+
+  const [categoryTag, setCategoryTag] = useState(categoryTagRaw);
+  const [newValue, setNewValue] = useState('');
+  const [tags, setTags] = useState(tagsRaw);
 
   return (
     <div className="c_category-detail">
-      <header>{categoryTag.value}</header>
+      <header>
+        <input
+          onBlur={() => onEditTag(categoryTag)}
+          onChange={event => setCategoryTag({
+            ...categoryTag,
+            value: event.currentTarget.value
+          })}
+          value={categoryTag.value}
+          />
+      </header>
       <RouteLink path={`/tag/${categoryTag.id}/edit`}>Edit</RouteLink>
       <ul>
         {
           tags.map(tag => (
-            <li key={tag.id}>{tag.value}</li>
+            <li key={tag.id}>
+              <input
+                type="text"
+                onBlur={() => {
+                  onEditTag(tag)
+                }}
+                onChange={event => {
+                  const i = tags.findIndex(t => t.id === tag.id);
+                  setTags([
+                    ...tags.slice(0, i),
+                    {
+                      ...tag,
+                      value: event.currentTarget.value
+                    },
+                    ...tags.slice(i + 1)
+                  ]);
+                }}
+                value={tag.value}
+              />
+            </li>
           ))
         }
         <li>

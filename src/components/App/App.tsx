@@ -1,51 +1,14 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
+import React, { useEffect, useState } from 'react';
 import { Tag } from '../../model';
-import { createTag as createTagMutation } from '../../graphql/mutations';
-import { listTags as listTagsQuery } from '../../graphql/queries';
-import { CreateTagInput, CreateTagMutationVariables, ListTagsQueryVariables } from '../../API';
 import { CategoryDetail, CategoryEdit, CategoryList, Nav } from '..';
 import { useRouteContext } from '../../util/route-hooks';
 import { Route, router } from '../../util/route';
-
-async function createTag(
-  input: CreateTagInput
-) {
-  const createTagVars: CreateTagMutationVariables = {
-    input
-  };
-
-  const result = await API.graphql(
-    graphqlOperation(
-      createTagMutation,
-      createTagVars
-    )
-  ) as { data: { createTag: Tag } };
-
-  return result.data.createTag;
-}
-
-async function listTags(): Promise<Tag[]> {
-  const listTagVars: ListTagsQueryVariables = {
-  };
-
-  const result = await API.graphql(
-    graphqlOperation(
-      listTagsQuery,
-      listTagVars
-    )
-  ) as { data: { listTags: { items: Tag[] } } };
-
-  // const raw = await fetch('/mock/tags.json');
-  // const result = await raw.json() as { data: { listTags: { items: Tag[] } } };
-
-  return result.data.listTags.items;
-}
+import { createTag, getCategory, listTags, updateTag } from '../../data';
 
 export interface AppProps {
 };
 
-const App: React.SFC<AppProps> = ({}) => {
+const App: React.SFC<AppProps> = () => {
   const { route } = useRouteContext(router);
   const [tags, setTags] = useState<Tag[]>([]);
   useEffect(() => {
@@ -55,7 +18,7 @@ const App: React.SFC<AppProps> = ({}) => {
   }, []);
 
   function view(route: Route) {
-    switch(route.type) {
+    switch (route.type) {
       case 'categoryList':
         return (
           <CategoryList
@@ -79,41 +42,44 @@ const App: React.SFC<AppProps> = ({}) => {
         );
 
       case 'categoryDetail':
-        const detailCategoryTag = tags.find(tag => tag.id === route.id);
-        if(detailCategoryTag) {
-          const detailTags = tags.filter(tag => tag.parentId === detailCategoryTag.id);
-          return (
-            <CategoryDetail
-              categoryTag={detailCategoryTag}
-              onAddTag={
-                async (value) => {
-                  const tag = await createTag({
-                    parentId: detailCategoryTag.id,
-                    value
-                  });
+        const detailCategory = getCategory(tags, route.id);
+        return detailCategory && (
+          <CategoryDetail
+            categoryTag={detailCategory.category}
+            onAddTag={
+              async (value) => {
+                const tag = await createTag({
+                  parentId: detailCategory.category.id,
+                  value
+                });
 
-                  setTags([
-                    ...tags,
-                    tag
-                  ]);
-                }
+                setTags([
+                  ...tags,
+                  tag
+                ]);
               }
-              tags={detailTags}
-            />
-          );
-        }
+            }
+            onEditTag={
+              async (value) => {
+                const tag = await updateTag(value);
+                setTags([
+                  ...tags.filter(t => t.id !== tag.id),
+                  tag
+                ]);
+              }
+            }
+            tags={detailCategory.tags}
+          />
+        );
 
       case 'categoryEdit':
-        const editCategoryTag = tags.find(tag => tag.id === route.id);
-        if(editCategoryTag) {
-          const editTags = tags.filter(tag => tag.parentId === editCategoryTag.id);
-          return (
-            <CategoryEdit
-              categoryTag={editCategoryTag}
-              tags={editTags}
-            />
-          );
-        }
+        const editCategory = getCategory(tags, route.id);
+        return editCategory && (
+          <CategoryEdit
+            categoryTag={editCategory.category}
+            tags={editCategory.tags}
+          />
+        );
 
       default:
         return null;
@@ -122,7 +88,7 @@ const App: React.SFC<AppProps> = ({}) => {
 
   return (
     <div className="c_app">
-      <Nav/>
+      <Nav />
       {
         view(route)
       }

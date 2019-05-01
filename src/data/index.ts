@@ -9,12 +9,12 @@ import { Tag } from '../model';
 
 export async function gql<T extends object>(
   query: string,
-  input?: {}
+  variables?: {}
 ) {
   const { data } = await API.graphql(
     graphqlOperation(
       query,
-      input && { input }
+      variables
     )
   ) as { data: T };
 
@@ -26,14 +26,17 @@ export async function createTag(
 ) {
   const data = await gql<{ createTag: Tag }>(
     createTagMutation,
-    input
+    { input }
   );
   return data.createTag;
 }
 
 export async function listTags() {
   const data = await gql<{ listTags: { items: Tag[] } }>(
-    listTagsQuery
+    listTagsQuery,
+    {
+      limit: 50
+    }
   );
   return data.listTags.items;
 }
@@ -43,7 +46,7 @@ export async function updateTag(
 ) {
   const data = await gql<{ updateTag: Tag }>(
     updateTagMutation,
-    input
+    { input }
   );
   return data.updateTag;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteLink } from '..';
 import { Tag } from '../../model';
 
@@ -15,15 +15,22 @@ const CategoryDetail: React.SFC<CategoryDetailProps> = ({
   onEditTag,
   tags: tagsRaw
 }) => {
-  tagsRaw = tagsRaw.map(tag => ({
-    ...tag
-  }));
-
-  tagsRaw.sort((a, b) => a.value.localeCompare(b.value));
-
-  const [categoryTag, setCategoryTag] = useState(categoryTagRaw);
+  const [categoryTag, setCategoryTag] = useState<Tag>();
   const [newValue, setNewValue] = useState('');
-  const [tags, setTags] = useState(tagsRaw);
+  const [tags, setTags] = useState<Tag[]>([]);
+
+  useEffect(() => {
+    tagsRaw = tagsRaw.map(tag => ({
+      ...tag
+    }));
+    tagsRaw.sort((a, b) => a.value.localeCompare(b.value));
+    setCategoryTag(categoryTagRaw);
+    setTags(tagsRaw);
+  }, [categoryTag, tagsRaw]);
+
+  if(!categoryTag) {
+    return null;
+  }
 
   return (
     <div className="c_category-detail">

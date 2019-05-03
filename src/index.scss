@@ -27,7 +27,8 @@ h3 { @extend %h3; };
 
 .c_category-detail,
 .c_category-list,
-.c_category-list-edit {
+.c_category-list-edit,
+.c_entry-list {
   &__header {
     @extend %h2;
   }

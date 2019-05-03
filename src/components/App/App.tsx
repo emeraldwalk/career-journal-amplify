@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Tag } from '../../model';
-import { CategoryDetail, CategoryEdit, CategoryList, CategoryListEdit, Nav } from '..';
+import { Entry, Tag } from '../../model';
+import { CategoryDetail, CategoryEdit, CategoryList, CategoryListEdit, EntryList, Nav } from '..';
 import { useRouteContext } from '../../util/route-hooks';
 import { router } from '../../util/route';
-import { createTag, getCategory, listTags, updateTag } from '../../data';
+import { createEntry, createTag, getCategory, listEntries, listTags, newEntry, updateTag } from '../../data';
 import { switchExp } from '../../util/common';
 
 export interface AppProps {
@@ -11,8 +11,13 @@ export interface AppProps {
 
 const App: React.SFC<AppProps> = () => {
   const { route } = useRouteContext(router);
+  const [entries, setEntries] = useState<Entry[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
+
   useEffect(() => {
+    listEntries().then(
+      setEntries
+    );
     listTags().then(
       setTags
     );
@@ -85,6 +90,23 @@ const App: React.SFC<AppProps> = () => {
           ),
           categoryListEdit: () => (
             <CategoryListEdit/>
+          ),
+          entryList: () => (
+            <EntryList
+              entries={entries}
+              onAddEntry={
+                async () => {
+                  const entry = await createEntry(
+                    newEntry()
+                  );
+
+                  setEntries([
+                    ...entries,
+                    entry
+                  ]);
+                }
+              }
+            />
           ),
           notFound: r => null
         })

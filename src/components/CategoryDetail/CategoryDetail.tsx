@@ -20,7 +20,7 @@ const CategoryDetail: React.SFC<CategoryDetailProps> = ({
   const [tags, setTags] = useState<Tag[]>([]);
 
   useEffect(() => {
-    tagsRaw = tagsRaw.map(tag => ({
+    tagsRaw = tagsRaw.map(tag => ({ // eslint-disable-line
       ...tag
     }));
     tagsRaw.sort((a, b) => a.value.localeCompare(b.value));

@@ -1,16 +1,20 @@
 import { API, graphqlOperation } from "aws-amplify";
-import { CreateTagInput, UpdateTagInput } from "../API";
+import { CreateEntryInput, CreateTagInput, UpdateTagInput } from "../API";
 import {
+  createEntry as createEntryMutation,
   createTag as createTagMutation,
   updateTag as updateTagMutation
 } from '../graphql/mutations';
-import { listTags as listTagsQuery } from '../graphql/queries';
-import { Tag } from '../model';
+import {
+  listEntrys as listEntriesQuery,
+  listTags as listTagsQuery
+} from '../graphql/queries';
+import { Entry, EntryRaw, Tag } from '../model';
 
 export async function gql<T extends object>(
   query: string,
   variables?: {}
-) {
+): Promise<T> {
   const { data } = await API.graphql(
     graphqlOperation(
       query,
@@ -19,6 +23,58 @@ export async function gql<T extends object>(
   ) as { data: T };
 
   return data;
+}
+
+export async function createEntry(
+  input: CreateEntryInput
+): Promise<Entry> {
+  const { createEntry } = await gql<{ createEntry: EntryRaw }>(
+    createEntryMutation,
+    { input }
+  )
+
+  return await fromRaw(createEntry);
+}
+
+function fromRaw(raw: EntryRaw): Entry {
+  return {
+    ...raw,
+    categoryTags: JSON.parse(raw.categoryTags) as Entry['categoryTags'],
+    content: JSON.parse(raw.content) as Entry['content']
+  };
+}
+
+export async function listEntries(): Promise<Entry[]> {
+  const data = await gql<{ listEntrys: { items: Entry[] } }>(
+    listEntriesQuery,
+    {
+      limit: 50
+    }
+  );
+
+  return data.listEntrys.items.map(fromRaw);
+}
+
+export function newEntry(): CreateEntryInput {
+  return {
+    categoryTags: JSON.stringify({}),
+    content: JSON.stringify([
+      {
+        _type: 'block',
+        markDefs: [],
+        children: [
+          {
+            _type: 'span',
+            text: null,
+            marks: []
+          }
+        ]
+      }
+    ]),
+    date: new Date().toISOString().substr(0, 10),
+    tags: [],
+    title: '[New Entry]'
+  };
 }
 
 export async function createTag(

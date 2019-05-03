@@ -1,3 +1,20 @@
+export interface Dict<T> {
+  [key: string]: T
+}
+
+/**
+ * Extend a type with another.
+ * Allows adding properties or changing
+ * the type of existing properties with
+ * matching keys in the 2nd type.
+ */
+export type Extend<T, U> = {
+  [P in keyof (T & U)]:
+    P extends keyof U ? U[P] :
+    P extends keyof T ? T[P] :
+    never;
+};
+
 /**
  * Switch expression. Takes an instance of a union
  * type with a 'type' discriminator property and

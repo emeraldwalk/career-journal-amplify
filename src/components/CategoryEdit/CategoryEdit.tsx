@@ -16,8 +16,10 @@ const CategoryEdit: React.SFC<CategoryEditProps> = ({
 
   return (
     <div className="c_category-edit">
-      <header>{categoryTag.value}</header>
-      <RouteLink path={`/tag/${categoryTag.id}`}>Done</RouteLink>
+      <header>
+        <span>{categoryTag.value}</span>
+        <RouteLink path={`/tag/${categoryTag.id}`}>Done</RouteLink>
+      </header>
       <ul>
         {
           tags.map(tag => (

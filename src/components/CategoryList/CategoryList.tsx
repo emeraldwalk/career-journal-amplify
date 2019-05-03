@@ -18,7 +18,10 @@ const CategoryList: React.SFC<CategoryListProps> = ({
 
   return (
     <div className="c_category-list">
-      <header className="c_category-list__header">Categories</header>
+      <header className="c_category-list__header">
+        <span>Categories</span>
+        {/* <RouteLink path="/tag/edit">Edit</RouteLink> */}
+      </header>
       <ul>
         {categoryTags.map(tag => (
           <li key={tag.id}>

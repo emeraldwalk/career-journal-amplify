@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tag } from '../../model';
-import { CategoryDetail, CategoryEdit, CategoryList, Nav } from '..';
+import { CategoryDetail, CategoryEdit, CategoryList, CategoryListEdit, Nav } from '..';
 import { useRouteContext } from '../../util/route-hooks';
 import { router } from '../../util/route';
 import { createTag, getCategory, listTags, updateTag } from '../../data';
@@ -82,6 +82,9 @@ const App: React.SFC<AppProps> = () => {
                 }
               }
             />
+          ),
+          categoryListEdit: () => (
+            <CategoryListEdit/>
           ),
           notFound: r => null
         })

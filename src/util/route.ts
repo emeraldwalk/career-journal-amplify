@@ -6,6 +6,10 @@ interface CategoryList {
   type: 'categoryList'
 }
 
+interface CategoryListEdit {
+  type: 'categoryListEdit'
+}
+
 interface CategoryDetail {
   type: 'categoryDetail',
   id: string
@@ -24,6 +28,7 @@ export type Route =
   | CategoryDetail
   | CategoryEdit
   | CategoryList
+  | CategoryListEdit
   | NotFound;
 
 export function router(
@@ -32,6 +37,12 @@ export function router(
   if(/^\/tag$/.test(path)) {
     return {
       type: 'categoryList'
+    };
+  }
+
+  if(/^\/tag\/edit$/.test(path)) {
+    return {
+      type: 'categoryListEdit'
     };
   }
 

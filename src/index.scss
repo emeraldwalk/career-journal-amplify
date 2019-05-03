@@ -25,7 +25,9 @@ h3 { @extend %h3; };
   height: 100vh;
 }
 
-.c_category-list {
+.c_category-detail,
+.c_category-list,
+.c_category-list-edit {
   &__header {
     @extend %h2;
   }

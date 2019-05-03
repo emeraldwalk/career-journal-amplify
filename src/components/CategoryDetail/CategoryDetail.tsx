@@ -26,7 +26,7 @@ const CategoryDetail: React.SFC<CategoryDetailProps> = ({
     tagsRaw.sort((a, b) => a.value.localeCompare(b.value));
     setCategoryTag(categoryTagRaw);
     setTags(tagsRaw);
-  }, [categoryTag, tagsRaw]);
+  }, [categoryTagRaw, tagsRaw]);
 
   if(!categoryTag) {
     return null;
@@ -34,7 +34,9 @@ const CategoryDetail: React.SFC<CategoryDetailProps> = ({
 
   return (
     <div className="c_category-detail">
-      <header>
+      <header className="c_category-detail__header">
+        <RouteLink path="/tag">Categories</RouteLink>
+        <span>&gt;</span>
         <input
           onBlur={() => onEditTag(categoryTag)}
           onChange={event => setCategoryTag({
@@ -43,8 +45,8 @@ const CategoryDetail: React.SFC<CategoryDetailProps> = ({
           })}
           value={categoryTag.value}
           />
+        {/* <RouteLink path={`/tag/${categoryTag.id}/edit`}>Edit</RouteLink> */}
       </header>
-      <RouteLink path={`/tag/${categoryTag.id}/edit`}>Edit</RouteLink>
       <ul>
         {
           tags.map(tag => (

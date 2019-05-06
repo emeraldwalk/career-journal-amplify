@@ -1,8 +1,9 @@
 import { API, graphqlOperation } from "aws-amplify";
-import { CreateEntryInput, CreateTagInput, UpdateTagInput } from "../API";
+import { CreateEntryInput, CreateTagInput, UpdateEntryInput, UpdateTagInput } from "../API";
 import {
   createEntry as createEntryMutation,
   createTag as createTagMutation,
+  updateEntry as updateEntryMutation,
   updateTag as updateTagMutation
 } from '../graphql/mutations';
 import {
@@ -97,9 +98,21 @@ export async function listTags() {
   return data.listTags.items;
 }
 
+export async function updateEntry(
+  input: UpdateEntryInput
+): Promise<Entry> {
+  const data = await gql<{ updateEntry: Entry }>(
+    updateEntryMutation,
+    { input }
+  );
+  return fromRaw(
+    data.updateEntry
+  );
+}
+
 export async function updateTag(
   input: UpdateTagInput
-) {
+): Promise<Tag> {
   const data = await gql<{ updateTag: Tag }>(
     updateTagMutation,
     { input }

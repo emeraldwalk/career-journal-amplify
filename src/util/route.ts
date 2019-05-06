@@ -20,6 +20,11 @@ interface CategoryEdit {
   id: string
 }
 
+interface EntryEdit {
+  type: 'entryEdit',
+  id: string
+}
+
 interface EntryList {
   type: 'entryList'
 }
@@ -33,6 +38,7 @@ export type Route =
   | CategoryEdit
   | CategoryList
   | CategoryListEdit
+  | EntryEdit
   | EntryList
   | NotFound;
 
@@ -57,20 +63,31 @@ export function router(
     };
   }
 
-  const [, id = undefined, isEdit = undefined] = path.match(
+  const [, tagId = undefined, isEdit = undefined] = path.match(
     /^\/tag\/([^/]+)(\/edit)?$/
   ) || [];
 
-  if(id) {
+  if(tagId) {
     return isEdit
       ? {
         type: 'categoryEdit',
-        id
+        id: tagId
       }
       : {
         type: 'categoryDetail',
-        id
+        id: tagId
       };
+  }
+
+  const [, entryId = undefined] = path.match(
+    /^\/entry\/([^/]+)$/
+  ) || [];
+
+  if(entryId) {
+    return {
+      type: 'entryEdit',
+      id: entryId
+    };
   }
 
   return {

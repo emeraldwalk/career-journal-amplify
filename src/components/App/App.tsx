@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Entry, Tag } from '../../model';
-import { CategoryDetail, CategoryEdit, CategoryList, CategoryListEdit, EntryList, Nav } from '..';
+import { CategoryDetail, CategoryEdit, CategoryList, CategoryListEdit, EntryEdit, EntryList, Nav } from '..';
 import { useRouteContext } from '../../util/route-hooks';
 import { router } from '../../util/route';
-import { createEntry, createTag, getCategory, listEntries, listTags, newEntry, updateTag } from '../../data';
+import { createEntry, createTag, getCategory, listEntries, listTags, newEntry, updateEntry, updateTag } from '../../data';
 import { switchExp } from '../../util/common';
 
 export interface AppProps {
@@ -90,6 +90,25 @@ const App: React.SFC<AppProps> = () => {
           ),
           categoryListEdit: () => (
             <CategoryListEdit/>
+          ),
+          entryEdit: ({ id }) => (
+            <EntryEdit
+              entry={entries.find(entry => entry.id === id)!}
+              onDone={
+                async (value: Entry) => {
+                  const entry = await updateEntry({
+                    ...value,
+                    categoryTags: JSON.stringify(value.categoryTags),
+                    content: JSON.stringify(value.content),
+                  });
+
+                  setEntries([
+                    ...entries.filter(e => e.id !== entry.id),
+                    entry
+                  ]);
+                }
+              }
+            />
           ),
           entryList: () => (
             <EntryList

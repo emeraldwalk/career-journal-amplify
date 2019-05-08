@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Entry } from '../../model';
-import { RouteLink } from '..';
+import { Entry, Tag } from '../../model';
+import { EntryTagList, RouteLink, TagSelector } from '..';
 import { Block } from '../../@types/portable-text';
+import { Dict } from '../../util/common';
+
+const CATEGORY_IDS = [
+  'd3d2feda-a668-4cab-83fd-1beab5d5755d', // Location
+  'edf8fd0a-5733-4b23-80c1-5e03961e8b2d', // Project
+];
 
 export interface EntryDetailProps {
   entry: Entry,
-  onDone: (entry: Entry) => void
+  onDone: (entry?: Entry) => void,
+  tags: Tag[]
 };
 
 const EntryDetail: React.SFC<EntryDetailProps> = ({
   entry: entryRaw,
-  onDone
+  onDone,
+  tags
 }) => {
-  const [entry, setEntry] = useState<Entry>();
+  const [entry, setEntryBase] = useState<Entry>();
+  const [isDirty, setIsDirty] = useState(false);
 
   useEffect(() => {
-    setEntry({
+    setEntryBase({
       ...entryRaw
     });
   }, [entryRaw]);
@@ -23,6 +32,20 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
   if(!entry) {
     return null;
   }
+
+  function setEntry(entry: Entry) {
+    setEntryBase(entry);
+    setIsDirty(true);
+  }
+
+  const tagMap: Dict<Tag> = tags.reduce((map, tag) => {
+    return {
+      ...map,
+      [tag.id]: tag
+    }
+  }, {});
+
+  const categoryTags = CATEGORY_IDS.map(id => tagMap[id]);
 
   return (
     <div className="c_entry-detail">
@@ -43,6 +66,21 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
         })}
         value={blocksToText(entry.content)}>
       </textarea>
+      <EntryTagList
+        entryTags={entry.tags.map(id => tagMap[id])}
+      />
+      {
+        categoryTags.map(category => (
+          <div key={category.id}>
+            <label>{category.value}</label>
+            <TagSelector
+              onChange={console.log}
+              selected={entry.categoryTags[category.id]}
+              tags={tags.filter(tag => tag.parentId === category.id)}
+            />
+          </div>
+        ))
+      }
       <div className="c_entry-detail__actions">
         <RouteLink
           className="c_entry-detail__action"
@@ -50,7 +88,7 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
         >Cancel</RouteLink>
         <button
           className="action"
-          onClick={() => onDone(entry)}
+          onClick={() => onDone(isDirty ? entry : undefined)}
         >Done</button>
       </div>
     </div>
@@ -68,6 +106,19 @@ function blocksToText(
     )
     .join('\n');
 }
+
+// function categoryTagsFromIds(
+//   tags: Tag[],
+//   ids: Dict<string>
+// ): Dict<Tag> {
+//   return Object.keys(ids).reduce((memo, categoryKey) => {
+//     const tagKey = ids[categoryKey];
+//     return {
+//       ...memo,
+//       [categoryKey]: tags.find(t => t.id === tagKey)
+//     };
+//   }, {})
+// }
 
 function textToBlocks(
   text: string

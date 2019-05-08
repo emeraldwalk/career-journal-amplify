@@ -33,3 +33,8 @@ h3 { @extend %h3; };
     @extend %h2;
   }
 }
+
+.c_entry-detail {
+  display: flex;
+  flex-direction: column;
+}

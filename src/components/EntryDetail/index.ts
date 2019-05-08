@@ -1,0 +1,1 @@
+export { default as EntryDetail } from './EntryDetail';

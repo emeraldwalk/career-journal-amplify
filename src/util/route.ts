@@ -20,8 +20,8 @@ interface CategoryEdit {
   id: string
 }
 
-interface EntryEdit {
-  type: 'entryEdit',
+interface EntryDetail {
+  type: 'entryDetail',
   id: string
 }
 
@@ -38,7 +38,7 @@ export type Route =
   | CategoryEdit
   | CategoryList
   | CategoryListEdit
-  | EntryEdit
+  | EntryDetail
   | EntryList
   | NotFound;
 
@@ -85,7 +85,7 @@ export function router(
 
   if(entryId) {
     return {
-      type: 'entryEdit',
+      type: 'entryDetail',
       id: entryId
     };
   }

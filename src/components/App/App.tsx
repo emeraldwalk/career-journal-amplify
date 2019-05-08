@@ -96,8 +96,14 @@ const App: React.SFC<AppProps> = () => {
             return entry && (
               <EntryDetail
                 entry={entry}
+                tags={tags}
                 onDone={
-                  async (value: Entry) => {
+                  async (value?: Entry) => {
+                    if(!value) {
+                      setPath('/');
+                      return;
+                    }
+
                     const entry = await updateEntry({
                       ...value,
                       categoryTags: JSON.stringify(value.categoryTags),

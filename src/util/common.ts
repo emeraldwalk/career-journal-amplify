@@ -16,6 +16,18 @@ export type Extend<T, U> = {
 };
 
 /**
+ * Combines a list of css class names into
+ * a space delimited css class string.
+ */
+export function classes(
+  ...classNames: (string | undefined)[]
+) {
+  return classNames
+    .filter(c => c != null)
+    .join(' ');
+}
+
+/**
  * Switch expression. Takes an instance of a union
  * type with a 'type' discriminator property and
  * a map with keys for each discriminator value

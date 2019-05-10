@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouteContext } from '../../util/route-hooks';
+import { classes } from '../../util/common';
 
 export interface RouteLinkProps {
   children: React.ReactNode,
@@ -16,7 +17,7 @@ const RouteLink: React.SFC<RouteLinkProps> = ({
 
   return (
     <a
-      className={className}
+      className={classes('route-link', className)}
       href={path}
       onClick={event => {
         event.preventDefault();

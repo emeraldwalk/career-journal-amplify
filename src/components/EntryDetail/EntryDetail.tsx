@@ -3,6 +3,7 @@ import { Entry, Tag } from '../../model';
 import { EntryTagList, RouteLink, TagSelector } from '..';
 import { Block } from '../../@types/portable-text';
 import { Dict } from '../../util/common';
+import { monthAndDay } from '../../util/display';
 
 const CATEGORY_IDS = [
   'd3d2feda-a668-4cab-83fd-1beab5d5755d', // Location
@@ -45,11 +46,13 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
     }
   }, {});
 
-  const categoryTags = CATEGORY_IDS.map(id => tagMap[id]);
+  const categoryTags = CATEGORY_IDS.map(id => tagMap[id]).filter(tag => !!tag);
 
   return (
     <div className="c_entry-detail">
-      {entry.date.substr(5)}
+      <header className="c_entry-detail__header">
+        {monthAndDay(entry.date)}
+      </header>
       <input
         onChange={event => setEntry({
           ...entry,
@@ -59,7 +62,7 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
         value={entry.title}
         />
       <textarea
-        className="c_entry-edit__content"
+        className="c_entry-detail__content"
         onChange={event => setEntry({
           ...entry,
           content: textToBlocks(event.target.value)
@@ -69,18 +72,28 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
       <EntryTagList
         entryTags={entry.tags.map(id => tagMap[id])}
       />
+      <div className="c_entry-detail__category-list">
       {
         categoryTags.map(category => (
-          <div key={category.id}>
-            <label>{category.value}</label>
-            <TagSelector
-              onChange={console.log}
-              selected={entry.categoryTags[category.id]}
-              tags={tags.filter(tag => tag.parentId === category.id)}
+          <TagSelector
+            el={React.Fragment}
+            key={category.id}
+            label={category.value}
+            onChange={value => {
+              setEntry({
+                ...entry,
+                categoryTags: {
+                  ...entry.categoryTags,
+                  [category.id]: value
+                }
+              })
+            }}
+            selected={entry.categoryTags[category.id]}
+            tags={tags.filter(tag => tag.parentId === category.id)}
             />
-          </div>
         ))
       }
+      </div>
       <div className="c_entry-detail__actions">
         <RouteLink
           className="c_entry-detail__action"

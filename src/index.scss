@@ -13,6 +13,8 @@ body {
 %h2 { font-size: 1.8rem };
 %h3 { font-size: 1.5rem };
 
+$color-text: #222;
+
 h1 { @extend %h1; };
 h2 { @extend %h2; };
 h3 { @extend %h3; };
@@ -22,12 +24,15 @@ h3 { @extend %h3; };
 }
 
 .c_app {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
 }
 
 .c_category-detail,
 .c_category-list,
 .c_category-list-edit,
+.c_entry-detail,
 .c_entry-list {
   &__header {
     @extend %h2;
@@ -36,5 +41,32 @@ h3 { @extend %h3; };
 
 .c_entry-detail {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
+  &__content {
+    flex-grow: 1;
+  }
+  &__category-list {
+    display: grid;
+    grid-auto-columns: max-content;
+    label {
+      grid-column: 1;
+    }
+    .c_tag-selector {
+      grid-column: 2;
+    }
+  }
+}
+
+.c_entry-list {
+  &__entry {
+    margin: 10px 0;
+    .route-link {
+      color: $color-text;
+      text-decoration: none;
+    }
+  }
+  &__entry-date {
+    @extend %h2;
+  }
 }

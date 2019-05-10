@@ -6,11 +6,6 @@ import { Dict } from '../../util/common';
 import { monthAndDay } from '../../util/date';
 import { TextEdit } from '../TextEdit';
 
-const CATEGORY_IDS = [
-  'd3d2feda-a668-4cab-83fd-1beab5d5755d', // Location
-  'edf8fd0a-5733-4b23-80c1-5e03961e8b2d', // Project
-];
-
 export interface EntryDetailProps {
   entry: Entry,
   onDone: (entry?: Entry) => void,
@@ -47,9 +42,8 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
     }
   }, {});
 
-  const categoryTags: Tag[] = CATEGORY_IDS
-    .map(id => tagMap[id])
-    .filter(tag => !!tag);
+  const categoryTags = tags.filter(tag => tag.parentId === '__ROOT__');
+  categoryTags.sort((a, b) => a.value.localeCompare(b.value));
 
   return (
     <div className="c_entry-detail">

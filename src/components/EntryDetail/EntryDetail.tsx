@@ -118,7 +118,7 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
       </div>
       <div className="c_entry-detail__actions">
         <RouteLink
-          className="c_entry-detail__action"
+          className="action c_entry-detail__action"
           path="/"
         >Cancel</RouteLink>
         <button

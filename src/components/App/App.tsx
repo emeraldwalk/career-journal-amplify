@@ -5,6 +5,7 @@ import { useRouteContext } from '../../util/route-hooks';
 import { router } from '../../util/route';
 import { createEntry, createTag, getCategory, listEntries, listTags, newEntry, updateEntry, updateTag } from '../../data';
 import { switchExp } from '../../util/common';
+import { useViewportHeight } from '../../util/viewport-hook';
 
 export interface AppProps {
 };
@@ -13,6 +14,8 @@ const App: React.SFC<AppProps> = () => {
   const { route, setPath } = useRouteContext(router);
   const [entries, setEntries] = useState<Entry[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
+
+  useViewportHeight();
 
   useEffect(() => {
     listEntries().then(

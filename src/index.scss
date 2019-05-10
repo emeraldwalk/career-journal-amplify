@@ -12,7 +12,6 @@ body {
 %h1 { font-size: 2rem };
 %h2 { font-size: 1.8rem };
 %h3 { font-size: 1.5rem };
-%input { font-size: inherit; }
 
 $color-text: #222;
 
@@ -20,14 +19,34 @@ h1 { @extend %h1; };
 h2 { @extend %h2; };
 h3 { @extend %h3; };
 
+.action, input, select, textarea {
+  border: 1px solid #ccc;
+  color: inherit;
+  font: inherit;
+}
+
 .action {
-  padding: 4px 8px;
+  padding: 5px 10px;
+  text-decoration: none;
 }
 
 .c_app {
   display: flex;
   flex-direction: column;
+
+  /** Fallback for browsers without css variables */
   height: 100vh;
+  max-height: 100vh;
+
+  /**
+   * Deal with mobile browser status bars.
+   * Requires a css variable named --vh provided
+   * by useViewportHeight() hook.
+   */
+  height: calc(var(--vh, 100vh));
+  max-height: calc(var(--vh, 100vh));
+
+  padding: 10px;
 }
 
 .c_category-detail,
@@ -44,6 +63,9 @@ h3 { @extend %h3; };
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  > :not(:first-child) {
+    margin: 10px 0;
+  }
   &__content {
     flex-grow: 1;
   }
@@ -55,6 +77,11 @@ h3 { @extend %h3; };
     }
     .c_dropdown {
       grid-column: 2;
+    }
+  }
+  &__actions {
+    :first-child {
+      margin-right: 10px;
     }
   }
 }
@@ -72,6 +99,14 @@ h3 { @extend %h3; };
   }
 }
 
+.c_nav {
+  display: flex;
+  flex-direction: row;
+  &__link {
+    padding: 2px 4px;
+  }
+}
+
 .c_tag-list-editor {
   display: flex;
   flex-direction: column;
@@ -85,8 +120,4 @@ h3 { @extend %h3; };
     margin-right: 6px;
     padding: 2px 4px;
   }
-}
-
-input.c_text-edit {
-  @extend %input;
 }

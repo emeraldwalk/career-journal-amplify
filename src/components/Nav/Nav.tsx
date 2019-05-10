@@ -6,8 +6,8 @@ export interface NavProps {
 
 const Nav: React.SFC<NavProps> = () => (
   <nav className="c_nav">
-    <RouteLink path="/">Entries</RouteLink>
-    <RouteLink path="/tag">Tags</RouteLink>
+    <RouteLink className="c_nav__link" path="/">Entries</RouteLink>
+    <RouteLink className="c_nav__link" path="/tag">Categories</RouteLink>
   </nav>
 );
 

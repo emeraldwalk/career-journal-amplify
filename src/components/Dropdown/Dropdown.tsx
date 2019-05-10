@@ -1,35 +1,34 @@
 import React from 'react';
-import { Tag } from '../../model';
 
-export interface TagSelectorProps {
+export interface DropdownProps {
   el: React.ComponentType,
   label: string,
   onChange: (value: string) => void,
   selected: string,
-  tags: Tag[]
+  items: { display: string, value: string }[]
 };
 
-const TagSelector: React.SFC<TagSelectorProps> = ({
+const Dropdown: React.SFC<DropdownProps> = ({
   el: El,
   label,
   onChange,
   selected,
-  tags
+  items
 }) => (
   <El>
     <label>{label}</label>
     <select
-      className="c_tag-selector"
+      className="c_dropdown"
       onChange={event => onChange(event.currentTarget.value)}
       value={selected}>
       <option value="">--</option>
       {
-        tags.map(tag => (
-          <option key={tag.id} value={tag.id}>{tag.value}</option>
+        items.map(({ display, value }) => (
+          <option key={value} value={value}>{display}</option>
         ))
       }
     </select>
   </El>
 );
 
-export default TagSelector;
+export default Dropdown;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Entry, Tag } from '../../model';
-import { EntryTagList, RouteLink, TagSelector } from '..';
+import { Dropdown, EntryTagList, RouteLink } from '..';
 import { Block } from '../../@types/portable-text';
 import { Dict } from '../../util/common';
 import { monthAndDay } from '../../util/date';
@@ -47,7 +47,9 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
     }
   }, {});
 
-  const categoryTags = CATEGORY_IDS.map(id => tagMap[id]).filter(tag => !!tag);
+  const categoryTags: Tag[] = CATEGORY_IDS
+    .map(id => tagMap[id])
+    .filter(tag => !!tag);
 
   return (
     <div className="c_entry-detail">
@@ -85,9 +87,14 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
       <div className="c_entry-detail__category-list">
       {
         categoryTags.map(category => (
-          <TagSelector
+          <Dropdown
             el={React.Fragment}
-            key={category.id}
+            items={
+              tags
+                .filter(tag => tag.parentId === category.id)
+                .map(({ id, value }) => ({ display: value, value: id }))
+            }
+            key={category.value}
             label={category.value}
             onChange={value => {
               setEntry({
@@ -99,7 +106,6 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
               })
             }}
             selected={entry.categoryTags[category.id]}
-            tags={tags.filter(tag => tag.parentId === category.id)}
             />
         ))
       }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Entry, Tag } from '../../model';
-import { Dropdown, EntryTagList, RouteLink } from '..';
+import { Dropdown, RouteLink, TagListEditor } from '..';
 import { Block } from '../../@types/portable-text';
 import { Dict } from '../../util/common';
 import { monthAndDay } from '../../util/date';
@@ -81,8 +81,14 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
         })}
         value={blocksToText(entry.content)}>
       </textarea>
-      <EntryTagList
-        entryTags={entry.tags.map(id => tagMap[id])}
+      <TagListEditor
+        onChange={tags => {
+          setEntry({
+            ...entry,
+            tags
+          })
+        }}
+        tags={entry.tags}
       />
       <div className="c_entry-detail__category-list">
       {

@@ -8,4 +8,5 @@ export { EntryList } from './EntryList';
 export { Nav } from './Nav';
 export { RouteLink } from './RouteLink';
 export { Dropdown } from './Dropdown';
+export { TagListEditor } from './TagListEditor';
 export { TextEdit } from './TextEdit';

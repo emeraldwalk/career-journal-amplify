@@ -72,6 +72,21 @@ h3 { @extend %h3; };
   }
 }
 
+.c_tag-list-editor {
+  display: flex;
+  flex-direction: column;
+  &__tag-list {
+    display: flex;
+    flex-direction: row;
+  }
+  .c_tag-list-editor__tag {
+    border: 1px solid #ccc;
+    line-height: 1em;
+    margin-right: 6px;
+    padding: 2px 4px;
+  }
+}
+
 input.c_text-edit {
   @extend %input;
 }

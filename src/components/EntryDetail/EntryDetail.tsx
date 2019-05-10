@@ -55,6 +55,7 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
     <div className="c_entry-detail">
       <header className="c_entry-detail__header">
         <TextEdit
+          className="c_entry-detail__date"
           display={monthAndDay}
           value={entry.date}
           onChange={date =>

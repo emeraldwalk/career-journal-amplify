@@ -11,6 +11,7 @@ import {
   listTags as listTagsQuery
 } from '../graphql/queries';
 import { Entry, EntryRaw, Tag } from '../model';
+import { localISODayStr } from "../util/date";
 
 export async function gql<T extends object>(
   query: string,
@@ -72,9 +73,10 @@ export function newEntry(): CreateEntryInput {
         ]
       }
     ]),
-    date: new Date().toISOString().substr(0, 10),
+    date: localISODayStr(),
     tags: [],
-    title: '[New Entry]'
+    title: '[New Entry]',
+    createdAt: new Date().toISOString()
   };
 }
 

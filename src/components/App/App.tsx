@@ -134,6 +134,8 @@ const App: React.SFC<AppProps> = () => {
                     ...entries,
                     entry
                   ]);
+
+                  setPath(`/entry/${entry.id}`);
                 }
               }
             />

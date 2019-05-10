@@ -3,7 +3,8 @@ import { Entry, Tag } from '../../model';
 import { EntryTagList, RouteLink, TagSelector } from '..';
 import { Block } from '../../@types/portable-text';
 import { Dict } from '../../util/common';
-import { monthAndDay } from '../../util/display';
+import { monthAndDay } from '../../util/date';
+import { TextEdit } from '../TextEdit';
 
 const CATEGORY_IDS = [
   'd3d2feda-a668-4cab-83fd-1beab5d5755d', // Location
@@ -51,7 +52,16 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
   return (
     <div className="c_entry-detail">
       <header className="c_entry-detail__header">
-        {monthAndDay(entry.date)}
+        <TextEdit
+          display={monthAndDay}
+          value={entry.date}
+          onChange={date =>
+            setEntry({
+              ...entry,
+              date
+            })
+          }
+        />
       </header>
       <input
         onChange={event => setEntry({
@@ -119,19 +129,6 @@ function blocksToText(
     )
     .join('\n');
 }
-
-// function categoryTagsFromIds(
-//   tags: Tag[],
-//   ids: Dict<string>
-// ): Dict<Tag> {
-//   return Object.keys(ids).reduce((memo, categoryKey) => {
-//     const tagKey = ids[categoryKey];
-//     return {
-//       ...memo,
-//       [categoryKey]: tags.find(t => t.id === tagKey)
-//     };
-//   }, {})
-// }
 
 function textToBlocks(
   text: string

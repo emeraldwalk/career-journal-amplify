@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Entry, Tag } from '../../model';
 import { Dropdown, RouteLink, TagListEditor } from '..';
 import { Block } from '../../@types/portable-text';
-import { Dict } from '../../util/common';
 import { monthAndDay } from '../../util/date';
 import { TextEdit } from '../TextEdit';
 
@@ -34,13 +33,6 @@ const EntryDetail: React.SFC<EntryDetailProps> = ({
     setEntryBase(entry);
     setIsDirty(true);
   }
-
-  const tagMap: Dict<Tag> = tags.reduce((map, tag) => {
-    return {
-      ...map,
-      [tag.id]: tag
-    }
-  }, {});
 
   const categoryTags = tags.filter(tag => tag.parentId === '__ROOT__');
   categoryTags.sort((a, b) => a.value.localeCompare(b.value));

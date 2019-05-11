@@ -60,6 +60,7 @@ h3 { @extend %h3; };
 .c_entry-detail,
 .c_entry-list {
   &__header {
+    align-items: center;
     display: flex;
     flex-direction: row;
     @extend %h2;
@@ -81,6 +82,7 @@ h3 { @extend %h3; };
   &__new-tag {
     display: flex;
     flex-direction: row;
+    margin-top: 6px;
     input {
       border-color: #ccc;
       flex-grow: 1;

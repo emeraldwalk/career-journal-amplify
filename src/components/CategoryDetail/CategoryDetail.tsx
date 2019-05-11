@@ -36,7 +36,7 @@ const CategoryDetail: React.SFC<CategoryDetailProps> = ({
     <div className="c_category-detail">
       <header className="c_category-detail__header">
         <RouteLink path="/tag">Categories</RouteLink>
-        <span>&nbsp;&gt;&nbsp;</span>
+        <i className="material-icons">chevron_right</i>
         <span>
           <input
             onBlur={() => onEditTag(categoryTag)}

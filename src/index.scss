@@ -14,6 +14,7 @@ body {
 %h3 { font-size: 1.5rem };
 
 $color-text: #222;
+$item-padding: 6px 0;
 
 h1 { @extend %h1; };
 h2 { @extend %h2; };
@@ -59,13 +60,31 @@ h3 { @extend %h3; };
 .c_entry-detail,
 .c_entry-list {
   &__header {
+    display: flex;
+    flex-direction: row;
     @extend %h2;
   }
 }
 
 .c_category-detail {
+  &__header {
+    input {
+      width: 100%;
+    }
+  }
+  &__tag {
+    input {
+      padding: $item-padding;
+      width: 100%;
+    }
+  }
   &__new-tag {
-    border-color: #ccc;
+    display: flex;
+    flex-direction: row;
+    input {
+      border-color: #ccc;
+      flex-grow: 1;
+    }
   }
 }
 
@@ -78,6 +97,13 @@ h3 { @extend %h3; };
     }
     .action {
       line-height: 1em;
+    }
+  }
+  &__item {
+    .route-link {
+      color: inherit;
+      padding: $item-padding;
+      text-decoration: none;
     }
   }
 }
@@ -139,8 +165,15 @@ h3 { @extend %h3; };
 .c_nav {
   display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
   &__link {
-    padding: 2px 4px;
+    border-bottom: 2px solid transparent;
+    color: inherit;
+    padding: 10px;
+    text-decoration: none;
+    &.active {
+      border-color: $color-text;
+    }
   }
 }
 
@@ -158,4 +191,8 @@ h3 { @extend %h3; };
     margin: 3px 8px 3px 0;
     padding: 2px 4px;
   }
+}
+
+.route-link {
+  display: inline-block;
 }

@@ -30,7 +30,9 @@ const CategoryList: React.SFC<CategoryListProps> = ({
       </header>
       <ul>
         {categoryTags.map(tag => (
-          <li key={tag.id}>
+          <li
+            className="c_category-list__item"
+            key={tag.id}>
             <RouteLink path={`/tag/${tag.id}`}>{tag.value}</RouteLink>
           </li>
         ))}

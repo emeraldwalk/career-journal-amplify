@@ -36,21 +36,24 @@ const CategoryDetail: React.SFC<CategoryDetailProps> = ({
     <div className="c_category-detail">
       <header className="c_category-detail__header">
         <RouteLink path="/tag">Categories</RouteLink>
-        <span>&gt;</span>
-        <input
-          onBlur={() => onEditTag(categoryTag)}
-          onChange={event => setCategoryTag({
-            ...categoryTag,
-            value: event.currentTarget.value
-          })}
-          value={categoryTag.value}
-          />
-        {/* <RouteLink path={`/tag/${categoryTag.id}/edit`}>Edit</RouteLink> */}
+        <span>&nbsp;&gt;&nbsp;</span>
+        <span>
+          <input
+            onBlur={() => onEditTag(categoryTag)}
+            onChange={event => setCategoryTag({
+              ...categoryTag,
+              value: event.currentTarget.value
+            })}
+            value={categoryTag.value}
+            />
+        </span>
       </header>
-      <ul>
+      <ul className="c_category-detail__tag-list">
         {
           tags.map(tag => (
-            <li key={tag.id}>
+            <li
+              className="c_category-detail__tag"
+              key={tag.id}>
               <input
                 type="text"
                 onBlur={() => {
@@ -72,20 +75,21 @@ const CategoryDetail: React.SFC<CategoryDetailProps> = ({
             </li>
           ))
         }
-        <li>
-        <button
-          className="action"
-          disabled={newValue.length === 0}
-          onClick={() => {
-            onAddTag(newValue);
-            setNewValue('');
-          }}>+</button>
-        <input
+        <li
           className="c_category-detail__new-tag"
-          type="text"
-          onChange={event => setNewValue(event.currentTarget.value)}
-          value={newValue}
-          />
+          >
+          <input
+            type="text"
+            onChange={event => setNewValue(event.currentTarget.value)}
+            value={newValue}
+            />
+          <button
+            className="action"
+            disabled={newValue.length === 0}
+            onClick={() => {
+              onAddTag(newValue);
+              setNewValue('');
+            }}>+</button>
         </li>
       </ul>
     </div>

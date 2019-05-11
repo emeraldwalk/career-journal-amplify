@@ -17,7 +17,7 @@ const RouteLink: React.SFC<RouteLinkProps> = ({
 
   return (
     <a
-      className={classes('route-link', className)}
+      className={classes('route-link', window.location.pathname === path ? 'active' : '', className)}
       href={path}
       onClick={event => {
         event.preventDefault();

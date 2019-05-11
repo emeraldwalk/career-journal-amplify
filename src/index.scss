@@ -158,6 +158,9 @@ h3 { @extend %h3; };
       line-height: 1em;
     }
   }
+  .c_search-box {
+    margin-top: 10px;
+  }
   &__entry {
     margin: 10px 0;
     .route-link {
@@ -182,6 +185,22 @@ h3 { @extend %h3; };
     &.active {
       border-color: $color-text;
     }
+  }
+}
+
+.c_search-box {
+  display: flex;
+  flex-direction: row;
+
+  input {
+    border: 1px solid #ccc;
+    flex-grow: 1;
+    padding: 6px;
+    width: 100%;
+  }
+  button {
+    border: 1px solid #ccc;
+    padding: 6px;
   }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Entry } from '../../model';
-import { RouteLink } from '..';
+import { RouteLink, SearchBox } from '..';
 import { monthAndDay } from '../../util/date';
 
 export interface EntryListProps {
@@ -24,6 +24,7 @@ const EntryList: React.SFC<EntryListProps> = ({
           onClick={() => onAddEntry()}
         >+</button>
       </header>
+      <SearchBox/>
       <ul className="c_entry-list__entries">
         {
           entries.map(entry => (

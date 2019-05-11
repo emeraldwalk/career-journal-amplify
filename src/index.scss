@@ -20,8 +20,12 @@ h2 { @extend %h2; };
 h3 { @extend %h3; };
 
 .action, input, select, textarea {
+  border: 1px solid transparent;
   color: inherit;
   font: inherit;
+  &:focus {
+    border-color: #ccc;
+  }
 }
 
 .action {
@@ -59,6 +63,25 @@ h3 { @extend %h3; };
   }
 }
 
+.c_category-detail {
+  &__new-tag {
+    border-color: #ccc;
+  }
+}
+
+.c_category-list {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    :first-child {
+      flex-grow: 1;
+    }
+    .action {
+      line-height: 1em;
+    }
+  }
+}
+
 .c_entry-detail {
   display: flex;
   flex-grow: 1;
@@ -91,6 +114,16 @@ h3 { @extend %h3; };
 }
 
 .c_entry-list {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    :first-child {
+      flex-grow: 1;
+    }
+    .action {
+      line-height: 1em;
+    }
+  }
   &__entry {
     margin: 10px 0;
     .route-link {

@@ -19,14 +19,12 @@ const EntryList: React.SFC<EntryListProps> = ({
     <div className="c_entry-list">
       <header className="c_entry-list__header">
         <span>Journal</span>
+        <button
+          className="action"
+          onClick={() => onAddEntry()}
+        >+</button>
       </header>
       <ul className="c_entry-list__entries">
-        <li>
-          <button
-            className="action"
-            onClick={() => onAddEntry()}
-          >+</button>
-        </li>
         {
           entries.map(entry => (
             <li

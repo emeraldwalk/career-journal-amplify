@@ -81,6 +81,7 @@ const CategoryDetail: React.SFC<CategoryDetailProps> = ({
             setNewValue('');
           }}>+</button>
         <input
+          className="c_category-detail__new-tag"
           type="text"
           onChange={event => setNewValue(event.currentTarget.value)}
           value={newValue}

@@ -20,7 +20,13 @@ const CategoryList: React.SFC<CategoryListProps> = ({
     <div className="c_category-list">
       <header className="c_category-list__header">
         <span>Categories</span>
-        {/* <RouteLink path="/tag/edit">Edit</RouteLink> */}
+        <button
+          className="action"
+          disabled={newValue.length === 0}
+          onClick={() => {
+            onAddCategory(newValue);
+            setNewValue('');
+          }}>+</button>
       </header>
       <ul>
         {categoryTags.map(tag => (
@@ -29,13 +35,6 @@ const CategoryList: React.SFC<CategoryListProps> = ({
           </li>
         ))}
         <li>
-          <button
-            className="action"
-            disabled={newValue.length === 0}
-            onClick={() => {
-              onAddCategory(newValue);
-              setNewValue('');
-            }}>+</button>
           <input
             type="text"
             onChange={event => setNewValue(event.currentTarget.value)}

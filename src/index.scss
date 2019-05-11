@@ -188,7 +188,7 @@ h3 { @extend %h3; };
 .c_tag-list-editor {
   display: flex;
   flex-direction: column;
-  &__tag-list {
+  &__tag-list.c_text-edit {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -198,6 +198,7 @@ h3 { @extend %h3; };
     line-height: 1em;
     margin: 3px 8px 3px 0;
     padding: 2px 4px;
+    white-space: nowrap;
   }
 }
 

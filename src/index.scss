@@ -20,12 +20,12 @@ h2 { @extend %h2; };
 h3 { @extend %h3; };
 
 .action, input, select, textarea {
-  border: 1px solid #ccc;
   color: inherit;
   font: inherit;
 }
 
 .action {
+  border: 1px solid #ccc;
   padding: 5px 10px;
   text-decoration: none;
 }

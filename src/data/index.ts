@@ -17,14 +17,30 @@ export async function gql<T extends object>(
   query: string,
   variables?: {}
 ): Promise<T> {
-  const { data } = await API.graphql(
-    graphqlOperation(
-      query,
-      variables
-    )
-  ) as { data: T };
+  try {
+    const { data } = await API.graphql(
+      graphqlOperation(
+        query,
+        variables
+      )
+    ) as { data: T };
 
-  return data;
+    return data;
+  }
+  catch(e) {
+    // this feels really hacky, but not sure of a better
+    // way to detect session expiration
+    if(e === 'No current user') {
+      // hard refresh the page to prompt user for login again
+      window.location = window.location; /* eslint-disable-line */
+    }
+    else {
+      // once I have a better handle on the types
+      // of errors we can get, I should change this
+      alert(e);
+    }
+    throw e;
+  }
 }
 
 export async function createEntry(

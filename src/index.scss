@@ -22,6 +22,7 @@ h3 { @extend %h3; };
 
 .action, input, select, textarea {
   border: 1px solid transparent;
+  border-radius: 0;
   color: inherit;
   font: inherit;
   &:focus {
@@ -117,6 +118,11 @@ h3 { @extend %h3; };
   > :not(:first-child) {
     margin: 10px 0;
   }
+  &__header {
+    .c_text-edit {
+      width: 100%;
+    }
+  }
   &__date {
     display: block;
   }
@@ -193,6 +199,10 @@ h3 { @extend %h3; };
     margin: 3px 8px 3px 0;
     padding: 2px 4px;
   }
+}
+
+.c_text-edit {
+  display: inline-block;
 }
 
 .route-link {

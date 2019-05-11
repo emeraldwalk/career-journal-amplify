@@ -117,11 +117,12 @@ h3 { @extend %h3; };
   &__tag-list {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
   }
   .c_tag-list-editor__tag {
     border: 1px solid #ccc;
     line-height: 1em;
-    margin-right: 8px;
+    margin: 3px 8px 3px 0;
     padding: 2px 4px;
   }
 }

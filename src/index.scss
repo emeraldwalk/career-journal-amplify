@@ -170,8 +170,16 @@ h3 { @extend %h3; };
     margin-top: 10px;
   }
   &__entries {
+    /* fallback for non css variable browsers */
+    height: calc(100vh - 154px);
     max-height: calc(100vh - 154px);
+
+    /* keep scroll area within vh for mobile with status bars */
+    height: calc(var(--vh, 100vh) - 154px);
+    max-height: calc(var(--vh, 100vh) - 154px);
+
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; /* enable momentum scrolling on IOS */
   }
   &__entry {
     margin: 10px 0;

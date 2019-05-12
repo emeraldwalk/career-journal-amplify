@@ -6,16 +6,17 @@ import { monthAndDay } from '../../util/date';
 /**
  * Get category values from category id map on entry.
  */
-function getCategoryValues(
+function getCategoryProperties(
   tags: Tag[],
-  e: Entry
+  entry: Entry,
+  property: keyof Tag
 ): string[] {
   return Object
-    .values(e.categoryTags)
+    .values(entry.categoryTags)
     .map(
       id => {
         const tag = tags.find(t => t.id === id);
-        return tag && tag.value;
+        return tag && tag[property];
       }
     )
     .filter((value): value is string => value != null);
@@ -50,7 +51,7 @@ const EntryList: React.SFC<EntryListProps> = ({
       : entriesRaw.filter(
         e => {
           const tagValues = [
-            ...getCategoryValues(tags, e),
+            ...getCategoryProperties(tags, e, 'value'),
             ...e.tags
           ];
 
@@ -86,7 +87,14 @@ const EntryList: React.SFC<EntryListProps> = ({
               key={entry.id}>
               <RouteLink
                 path={`/entry/${entry.id}`}>
-                <header className="c_entry-list__entry-date">{monthAndDay(entry.date)}</header>
+                <header className="c_entry-list__entry-date">
+                  {monthAndDay(entry.date)}
+                  {
+                    getCategoryProperties(tags, entry, 'icon').map(icon => (
+                      <i className="material-icons" key={icon}>{icon}</i>
+                    ))
+                  }
+                </header>
                 <span>{entry.title}</span>
                 <TagList
                   tags={entry.tags}

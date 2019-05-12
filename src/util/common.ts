@@ -2,6 +2,10 @@ export interface Dict<T> {
   [key: string]: T
 }
 
+export interface Func<A, B> {
+  (arg: A): B
+}
+
 /**
  * Extend a type with another.
  * Allows adding properties or changing

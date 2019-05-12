@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Entry } from '../../model';
 import { RouteLink, SearchBox } from '..';
 import { monthAndDay } from '../../util/date';
@@ -9,11 +9,32 @@ export interface EntryListProps {
 };
 
 const EntryList: React.SFC<EntryListProps> = ({
-  entries,
+  entries: entriesRaw,
   onAddEntry
 }) => {
-  entries = entries.slice();
-  entries.sort((a, b) => b.date.localeCompare(a.date) || (b.createdAt || '').localeCompare(a.createdAt || ''));
+  const [entries, setEntries] = useState<Entry[]>([]);
+  const [filterValue, setFilterValue] = useState('');
+
+  useEffect(() => {
+    const filters = filterValue
+      .split(',')
+      .map(f => f.trim())
+      .filter(f => f.length > 0)
+      .map((tag, i, a) => {
+        const regEx = new RegExp(tag, 'i');
+        return regEx.test.bind(regEx);
+      });
+
+    const entriesTmp = filters.length === 0
+      ? entriesRaw.slice()
+      : entriesRaw.filter(
+        e => filters.some(f => e.tags.some(f))
+      );
+
+    entriesTmp.sort((a, b) => b.date.localeCompare(a.date) || (b.createdAt || '').localeCompare(a.createdAt || ''));
+
+    setEntries(entriesTmp);
+  }, [entriesRaw, filterValue]);
 
   return (
     <div className="c_entry-list">
@@ -24,7 +45,10 @@ const EntryList: React.SFC<EntryListProps> = ({
           onClick={() => onAddEntry()}
         >+</button>
       </header>
-      <SearchBox/>
+      <SearchBox
+        onChange={setFilterValue}
+        value={filterValue}
+      />
       <ul className="c_entry-list__entries">
         {
           entries.map(entry => (

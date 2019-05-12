@@ -16,6 +16,14 @@ body {
 $color-text: #222;
 $item-padding: 6px 0;
 
+%tag {
+  border: 1px solid #ccc;
+  line-height: 1em;
+  margin: 3px 8px 3px 0;
+  padding: 2px 4px;
+  white-space: nowrap;
+}
+
 h1 { @extend %h1; };
 h2 { @extend %h2; };
 h3 { @extend %h3; };
@@ -161,11 +169,20 @@ h3 { @extend %h3; };
   .c_search-box {
     margin-top: 10px;
   }
+  &__entries {
+    max-height: calc(100vh - 154px);
+    overflow-y: scroll;
+  }
   &__entry {
     margin: 10px 0;
     .route-link {
       color: $color-text;
+      display: flex;
+      flex-direction: column;
       text-decoration: none;
+    }
+    .c_tag-list {
+      margin: 10px 0;
     }
   }
   &__entry-date {
@@ -204,6 +221,15 @@ h3 { @extend %h3; };
   }
 }
 
+.c_tag-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  &__tag {
+    @extend %tag;
+  }
+}
+
 .c_tag-list-editor {
   display: flex;
   flex-direction: column;
@@ -213,11 +239,7 @@ h3 { @extend %h3; };
     flex-wrap: wrap;
   }
   .c_tag-list-editor__tag {
-    border: 1px solid #ccc;
-    line-height: 1em;
-    margin: 3px 8px 3px 0;
-    padding: 2px 4px;
-    white-space: nowrap;
+    @extend %tag;
   }
 }
 

@@ -9,5 +9,6 @@ export { EntryList } from './EntryList';
 export { Nav } from './Nav';
 export { RouteLink } from './RouteLink';
 export { SearchBox } from './SearchBox';
+export { TagList } from './TagList';
 export { TagListEditor } from './TagListEditor';
 export { TextEdit } from './TextEdit';

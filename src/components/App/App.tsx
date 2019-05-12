@@ -141,6 +141,7 @@ const App: React.SFC<AppProps> = () => {
                   setPath(`/entry/${entry.id}`);
                 }
               }
+              tags={tags}
             />
           ),
           notFound: r => null
